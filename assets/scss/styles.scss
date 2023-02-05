@@ -51,6 +51,7 @@ a {
 
 img {
   width: 130px;
+  height: 24px;
 }
 
 .btn-open {
@@ -111,7 +112,7 @@ img {
     }
 
     a {
-      color: #01b2f5;
+      color: #3b4bf8;
       display: block;
       font-weight: 100;
       width: max-content;
@@ -132,15 +133,24 @@ img {
   }
 }
 
-@mixin footer-flex($justify, $gap, $align: false) {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: $justify;
+@mixin footer-flex($gap, $wrap: false, $justify: false, $align: false) {
   gap: to-rem($gap);
+
+  @if ($wrap) {
+    flex-wrap: $wrap;
+  }
+
+  @if ($justify) {
+    justify-content: $justify;
+  }
 
   @if ($align) {
     align-items: $align;
   }
+}
+
+%footer-flex {
+  display: flex;
 }
 
 .footer {
@@ -152,9 +162,12 @@ img {
   flex-direction: column;
   padding-top: 5rem;
 
-  h4,
-  h5 {
+  h2 {
     @extend %titles;
+  }
+
+  h3 {
+    color: #5864f3;
   }
 
   a,
@@ -162,25 +175,57 @@ img {
     color: #fff;
     font-weight: 100;
     display: block;
+  }
+
+  a {
     margin-top: to-rem(15);
   }
 
   .footer-top {
-    display: flex;
+    @extend %footer-flex;
 
     .infos {
       width: 25%;
       margin-right: to-rem(100);
+
       .footer-title {
         font-size: to-rem(32);
+      }
+
+      .locations {
+        @extend %footer-flex;
+        @include footer-flex(10, $align: center);
+
+        margin: to-rem(20) 0;
+
+        .brazil {
+          height: 30px;
+          width: 30px;
+        }
+
+        .arrow-down {
+          height: 20px;
+          width: 20px;
+        }
+      }
+
+      .social-links {
+        @extend %footer-flex;
+        @include footer-flex(30);
+
+        img {
+          height: 30px;
+          width: 30px;
+        }
       }
     }
 
     .links {
-      @include footer-flex(space-evenly, 90);
+      @extend %footer-flex;
+      @include footer-flex(90, wrap, space-evenly);
 
       div {
-        width: 120px;
+        width: to-rem(120);
       }
     }
   }
@@ -191,7 +236,8 @@ img {
   }
 
   .footer-bottom {
-    @include footer-flex(space-between, 20, $align: center);
+    @extend %footer-flex;
+    @include footer-flex(20, wrap, space-between, center);
 
     img {
       height: 24px;
@@ -213,7 +259,7 @@ img {
 @media screen and (max-width: 940px) {
   .container-header {
     flex-direction: column;
-    gap: to-rem(16);
+    gap: 1rem;
 
     .menu-itens {
       flex-wrap: wrap;
@@ -250,6 +296,6 @@ img {
   .container-main {
     flex-wrap: wrap-reverse;
     justify-content: center;
-    margin-top: to-rem(0);
+    margin-top: 0;
   }
 }
